@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const bcrypt =require('bcryptjs')
-const User = require("../models/User");
+//const User = require("../models/User")
 
 //const jwt = require('jsonwebtoken')
 const UserSchema = new mongoose.Schema({
@@ -28,15 +28,22 @@ const UserSchema = new mongoose.Schema({
     
   },
 })
+//hash password before saving
 UserSchema.pre('save', async function () {
   
   if (!this.isModified('password')) return;
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
 
+
+  
   
 
 })
+// Add comparePassword method for login
+UserSchema.methods.comparePassword = async function (candidatePassword) {
+  return await bcrypt.compare(candidatePassword, this.password);
+};
 
 
 

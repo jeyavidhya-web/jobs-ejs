@@ -5,11 +5,16 @@
    <button>Logoff</button>
    </form>
 <% } %>
-<% if (errors) {
-  errors.forEach((err) => { %>
-    <div>Error: <%= err %></div>
+
+<% if (typeof error !== "undefined" && error.length > 0) {
+  error.forEach((err) => { %>
+    
+    <div class="alert alert-danger">Error: <%= err %></div>
 <% }) } %>
-<% if (info) {
-  info.forEach((msg) => { %>
-    <div>Info: <%= msg %></div>
-<% }) } %><hr />
+
+<% if (typeof info !== "undefined" && info.length > 0) { %>
+  
+  <% info.forEach((msg) => { %>
+    <div class="alert alert-info">Info: <%= msg %></div>
+<% }) } %>
+<hr />
