@@ -1,2 +1,26 @@
 
-<%- include("partials/head.ejs") %> <%- include("partials/header.ejs") %> <form method="POST"> <div> <label name="name">Enter your name:</label> <input name="name" /> </div> <div> <label name="email">Enter your email:</label> <input name="email" /> </div> <div> <label name="password">Enter your password:</label> <input type="password" name="password" /> </div> <div> <label name="password1">Confirm your password:</label> <input type="password" name="password1" /> </div> <div> <button>Register</button> <a href="/"> <button type="button">Cancel</button> </a> </div> </form> <%- include("partials/footer.ejs") %>
+
+<!-- views/register.ejs -->
+<!DOCTYPE html>
+<html>
+<head><title>Register</title></head>
+<body>
+  <h1>Register</h1>
+
+ 
+  <% if (typeof error !== "undefined" && error.length > 0) { %>
+    <div style="color: red;"><%= error[0] %></div>
+  <% } %>
+  
+  <% if (typeof info !== "undefined" && info.length > 0) { %>
+    <div style="color: green;"><%= info[0] %></div>
+  <% } %>
+
+  <form action="/sessions/register" method="POST">
+    <label>Name:</label><input type="text" name="name" required><br>
+    <label>Email:</label><input type="email" name="email" required><br>
+    <label>Password:</label><input type="password" name="password" required><br>
+    <button type="submit">Register</button>
+  </form>
+</body>
+</html>
