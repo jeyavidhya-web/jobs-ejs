@@ -1,1 +1,38 @@
-<%- include("partials/head.ejs") %> <%- include("partials/header.ejs") %> <form method="POST"> <div> <label name="email">Enter your email:</label> <input name="email" /> </div> <div> <label name="password">Enter your password:</label> <input type="password" name="password" /> </div> <div> <button>Logon</button> <a href="/"> <button type="button">Cancel</button> </a> </div> </form> <%- include("partials/footer.ejs") %>
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+</head>
+<body>
+  <h1>Login</h1>
+
+  <% if (info && info.length > 0) { %>
+    <div style="color: green;"><%= info[0] %></div>
+  <% } %>
+
+  <% if (error && error.length > 0) { %>
+    <div style="color: red;"><%= error[0] %></div>
+  <% } %>
+
+  <form action="/sessions/logon" method="POST">
+    
+     <label for="email">Email:</label>
+    <input type="email" name="email" required><br>
+
+    <label for="password">Password:</label>
+    <input type="password" name="password" required><br>
+
+    <button type="submit">Login</button>
+  </form>
+  
+
+
+
+
+
+
+
+
+</body>
+</html>
