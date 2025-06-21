@@ -1,9 +1,13 @@
 const mongoose = require('mongoose')
 const bcrypt =require('bcryptjs')
+<<<<<<< Updated upstream
 //const User = require("../models/User")
+=======
+
+>>>>>>> Stashed changes
 
 //const jwt = require('jsonwebtoken')
-const UserSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   name:{
     type:String,
     required: [true, 'Please provide name'],
@@ -28,8 +32,12 @@ const UserSchema = new mongoose.Schema({
     
   },
 })
+<<<<<<< Updated upstream
 //hash password before saving
 UserSchema.pre('save', async function () {
+=======
+userSchema.pre('save', async function () {
+>>>>>>> Stashed changes
   
   if (!this.isModified('password')) return;
   const salt = await bcrypt.genSalt(10);
@@ -45,9 +53,14 @@ UserSchema.methods.comparePassword = async function (candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.password);
 };
 
+//  Password comparison method
+userSchema.methods.comparePassword = async function (candidatePassword) {
+  return await bcrypt.compare(candidatePassword, this.password);
+};
 
 
 
 
 
-module.exports = mongoose.model('User', UserSchema)
+
+module.exports = mongoose.model('User', userSchema)

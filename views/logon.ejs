@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 
 <!DOCTYPE html>
 <html>
@@ -36,3 +37,39 @@
 
 </body>
 </html>
+=======
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Logon</title>
+</head>
+<body>
+ <h1>Logon Page</h1>
+  <% if (errors && errors.length > 0) { %>
+    <ul>
+      <% errors.forEach(function(err) { %>
+        <li style="color:red;"><%= err %></li>
+      <% }); %>
+    </ul>
+  <% } %>
+  <% if (info && info.length > 0) { %>
+    <ul>
+      <% info.forEach(function(message) { %>
+        <li style="color:green;"><%= message %></li>
+      <% }); %>
+    </ul>
+  <% } %>
+
+<form action="/sessions/logon" method="POST">
+  
+  
+  
+   <!-- CSRF Token if you're using csurf middleware -->
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <label>Email: <input type="email" name="email"required></label><br>
+  <label>Password: <input type="password" name="password" required></label><br>
+  <button type="submit">Logon</button>
+</form>
+</body>
+</html>
+>>>>>>> Stashed changes

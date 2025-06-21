@@ -9,7 +9,7 @@ const registerShow = (req, res) => {
 const registerDo = async (req, res, next) => {
   if (req.body.password != req.body.password1) {
     req.flash("error", "The passwords entered do not match.");
-    return res.render("register", {  errors: flash("error") });
+    return res.render("register", {  errors: req.flash("error") });
   }
   try {
     await User.create(req.body);
@@ -21,7 +21,7 @@ const registerDo = async (req, res, next) => {
     } else {
       return next(e);
     }
-    return res.render("register", {  errors: flash("error") });
+    return res.render("register", {  errors: req.flash("error") });
   }
   res.redirect("/");
   //show logon form
@@ -69,22 +69,73 @@ const logonDo = async (req, res, next) => {
 // Handle user logout
 
 
-const logoff = (req, res) => {
-  req.session.destroy(function (err) {
-    if (err) {
-      console.log(err);
-    }
-    res.redirect("/");
-  });
+
+
+
+   
+const logoff = (req, res, next) => {
+   console.log("LOGOFF ROUTE HIT");
+  if (typeof req.logout === 'function') {
+    // Passport.js logout with callback error handling
+    req.logout(function(err) {
+      if (err) return next(err);
+      req.flash('info', 'You have been logged out.');
+      res.redirect('/sessions/logon');
+
+    });
+  } else if (req.session) {
+    // Not using Passport, just destroy session
+    req.session.destroy(err => {
+      if (err) return next(err);
+      req.flash('info', 'You have been logged out.');
+      res.redirect('/sessions/logon');
+    });
+  } else {
+    // No session and no logout function - just redirect
+    res.redirect('/sessions/logoff');
+  }
 };
 
 
+const logonShow = (req, res) => {
+  if (req.user) {
+    return res.redirect("/");
+  }
+  res.render("logon", {
+    errors: req.flash("error"),
+    info: req.flash("info"),
+    csrfToken: req.csrfToken(), 
+  });
+};
+const logon = async (req, res, next) => {
+  try{
+    const { email, password } = req.body;
 
+    const user = await User.findOne({ email });
+    if (!user || !(await user.comparePassword(password))) {
+      req.flash("error", "Invalid email or password");
+      return res.redirect("/sessions/logon");
+    }
+
+    
+    
+    
+
+    // Set session user ID to log in the user
+    req.session.userId = user._id;
+ res.redirect("/");
+  } catch (err) {
+    next(err);
+  }
+
+};
 module.exports = {
   registerShow,
   registerDo,
   logonShow,
-  logonDo,
-  logoff,
+  logon,
+  logoff
   
-};
+ 
+
+}

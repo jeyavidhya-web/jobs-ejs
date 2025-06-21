@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 <h1>The Jobs Application</h1> 
 <% if (user) { %>
    <p>User <%= user.name %> is logged on.</p>
@@ -18,3 +19,33 @@
     <div class="alert alert-info">Info: <%= msg %></div>
 <% }) } %>
 <hr />
+=======
+ 
+ <% if (info && info.length) {
+  info.forEach((msg) => { %>
+    <div class="alert alert-info">Info: <%= msg %></div>
+<% }) } %>
+
+<hr />
+<h1>The Book-Library Application</h1>
+
+<% if (user) { %>
+  <p>User <%= user.name %> is logged on.</p>
+  <!--  CSRF-protected logoff form -->
+  <form method="POST" action="/sessions/logoff" style="display:inline;">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <button >Log Off</button>
+  </form>
+
+
+<% } else { %>
+  <p>You are not logged in.</p>
+  <a href="/sessions/logon">Log On</a> |
+  <a href="/sessions/register">Register</a>
+<% } %>
+<!--  Display errors -->
+<% if (errors && errors.length) {
+  errors.forEach((err) => { %>
+    <div class="alert alert-danger">Error: <%= err %></div>
+<% }) } %>
+>>>>>>> Stashed changes
