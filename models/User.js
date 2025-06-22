@@ -1,6 +1,10 @@
 const mongoose = require('mongoose')
 const bcrypt =require('bcryptjs')
+<<<<<<< HEAD
 //const User = require("../models/User")
+=======
+const User = require("../models/User");
+>>>>>>> origin/lesson12
 
 //const jwt = require('jsonwebtoken')
 const UserSchema = new mongoose.Schema({
@@ -28,13 +32,17 @@ const UserSchema = new mongoose.Schema({
     
   },
 })
+<<<<<<< HEAD
 //hash password before saving
+=======
+>>>>>>> origin/lesson12
 UserSchema.pre('save', async function () {
   
   if (!this.isModified('password')) return;
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
 
+<<<<<<< HEAD
 
   
   
@@ -44,6 +52,11 @@ UserSchema.pre('save', async function () {
 UserSchema.methods.comparePassword = async function (candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.password);
 };
+=======
+  
+
+})
+>>>>>>> origin/lesson12
 
 
 

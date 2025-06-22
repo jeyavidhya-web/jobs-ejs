@@ -1,11 +1,18 @@
+<<<<<<< HEAD
 const bcrypt = require("bcryptjs");
+=======
+>>>>>>> origin/lesson12
 const User = require("../models/User");
 const parseVErr = require("../util/parseValidationErrs");
 
 const registerShow = (req, res) => {
   res.render("register");
 };
+<<<<<<< HEAD
 //handle registration form submission
+=======
+
+>>>>>>> origin/lesson12
 const registerDo = async (req, res, next) => {
   if (req.body.password != req.body.password1) {
     req.flash("error", "The passwords entered do not match.");
@@ -24,6 +31,7 @@ const registerDo = async (req, res, next) => {
     return res.render("register", {  errors: flash("error") });
   }
   res.redirect("/");
+<<<<<<< HEAD
   //show logon form
 };const logonShow = (req, res) => {
   if (req.user) {
@@ -68,6 +76,9 @@ const logonDo = async (req, res, next) => {
 
 // Handle user logout
 
+=======
+};
+>>>>>>> origin/lesson12
 
 const logoff = (req, res) => {
   req.session.destroy(function (err) {
@@ -78,13 +89,30 @@ const logoff = (req, res) => {
   });
 };
 
+<<<<<<< HEAD
 
+=======
+const logonShow = (req, res) => {
+  if (req.user) {
+    return res.redirect("/");
+  }
+  res.render("logon", {
+    errors: req.flash("error"),
+    info: req.flash("info"),
+  });
+};
+>>>>>>> origin/lesson12
 
 module.exports = {
   registerShow,
   registerDo,
+<<<<<<< HEAD
   logonShow,
   logonDo,
   logoff,
   
+=======
+  logoff,
+  logonShow,
+>>>>>>> origin/lesson12
 };

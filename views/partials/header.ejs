@@ -1,10 +1,15 @@
+<<<<<<< HEAD
 <h1>The Jobs Application</h1> 
+=======
+<h1>The Jobs EJS Application</h1> 
+>>>>>>> origin/lesson12
 <% if (user) { %>
    <p>User <%= user.name %> is logged on.</p>
    <form method="POST" action="/sessions/logoff">
    <button>Logoff</button>
    </form>
 <% } %>
+<<<<<<< HEAD
 
 <% if (typeof error !== "undefined" && error.length > 0) {
   error.forEach((err) => { %>
@@ -18,3 +23,13 @@
     <div class="alert alert-info">Info: <%= msg %></div>
 <% }) } %>
 <hr />
+=======
+<% if (errors) {
+  errors.forEach((err) => { %>
+    <div>Error: <%= err %></div>
+<% }) } %>
+<% if (info) {
+  info.forEach((msg) => { %>
+    <div>Info: <%= msg %></div>
+<% }) } %><hr />
+>>>>>>> origin/lesson12
