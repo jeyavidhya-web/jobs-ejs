@@ -7,6 +7,7 @@ const app = express();
 
 require("dotenv").config(); // to load the .env file into the process.env object
 const session = require("express-session");
+const jobsRouter = require('./routes/jobs');
 
 const MongoDBStore = require("connect-mongodb-session")(session);
 const url = process.env.MONGODB_URI;
@@ -35,17 +36,52 @@ if (app.get("env") === "production") {
   sessionParms.cookie.secure = true; // serve secure cookies
 }
 
-app.use(session(sessionParms));
+
 
 app.set("view engine", "ejs");
+
+
+
+const csrf = require('host-csrf')
+const cookieParser = require("cookie-parser")
+app.use(cookieParser("notverysecret"));
 app.use(require("body-parser").urlencoded({ extended: true }));
-app.use(require("connect-flash")());
+
+app.use(session(sessionParms));
+
+//app.use(express.urlencoded({ extended: false }));
+let csrf_development_mode = true;
+if (app.get("env") === "production") {
+  csrf_development_mode = false;
+  app.set("trust proxy", 1);
+}
+const csrf_options = {
+  protected_operations: ["PATCH", "POST", "DELETE"],
+  protected_content_types: ["application/json"],
+  development_mode: csrf_development_mode,
+};
+const csrf_middleware = csrf(csrf_options);
+
+app.use(csrf_middleware);
+
+// Expose the CSRF token to all views
+app.use((req, res, next) => {
+  if (req.csrfToken) {
+    const token = req.csrfToken();
+    console.log(token);
+    res.locals._csrf = token; // for EJS
+    res.cookie('XSRF-TOKEN', token); // set as a cookie
+  }
+  next();
+});
+
 
 
 
 passportInit();
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(require("connect-flash")());
 
 app.use(require("./middleware/storeLocals"));
 app.get("/", (req, res) => {
@@ -76,6 +112,8 @@ app.use("/sessions", require("./routes/sessionRoutes"));
 const secretWordRouter = require("./routes/secretWord");
 const auth = require("./middleware/auth");
 app.use("/secretWord", auth, secretWordRouter);
+
+app.use("/jobs", auth, jobsRouter)
 
 app.use((req, res) => {
   res.status(404).send(`That page (${req.url}) was not found.`);
